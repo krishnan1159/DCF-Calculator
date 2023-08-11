@@ -44,26 +44,29 @@
             </div>
 
             <button type="button" class="btn btn-primary" onclick="calculateDCF()">Calculate DCF</button>
+            <button type="button" class="btn btn-secondary ms-2" onclick="clearResults()">Clear</button>
         </form>
 
-        <h2 class="mt-4">Cash Flows and Discounted Cash Flows</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Year</th>
-                    <th>Cash Flow</th>
-                    <th>Discount Factor</th>
-                    <th>Discounted Cash Flow</th>
-                </tr>
-            </thead>
-            <tbody id="cash-flow-table"></tbody>
-        </table>
+        <div class="d-none" id="result-section">
+            <h2 class="mt-4">Cash Flows and Discounted Cash Flows</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Cash Flow</th>
+                        <th>Discount Factor</th>
+                        <th>Discounted Cash Flow</th>
+                    </tr>
+                </thead>
+                <tbody id="cash-flow-table"></tbody>
+            </table>
 
-        <h2>Perpetuity Value and Total Equity Value:</h2>
-        <p id="dcf-result"></p>
-        
-        <h2>Final Share Price:</h2>
-        <p id="share-price"></p>
+            <h2>Perpetuity Value and Total Equity Value:</h2>
+            <p id="dcf-result"></p>
+            
+            <h2>Final Share Price:</h2>
+            <p id="share-price"></p>
+        </div>
     </div>
 
     <script>
@@ -102,7 +105,26 @@
 
             document.getElementById("dcf-result").textContent = `Perpetuity Value: ${currency}${perpetuityValue.toFixed(2)}`;
             document.getElementById("share-price").textContent = `Final Share Price: ${currency}${(totalEquityValue / sharesOutstanding).toFixed(2)}`;
+
+            // Show result section
+            document.getElementById("result-section").classList.remove("d-none");
+        }
+
+        function clearResults() {
+            // Clear all input fields
+            document.getElementById("currency").value = "USD";
+            document.getElementById("cash-flow").value = "";
+            document.getElementById("growth-rate").value = "";
+            document.getElementById("discount-rate").value = "";
+            document.getElementById("forecast-years").value = "5";
+            document.getElementById("shares-outstanding").value = "";
+
+            // Clear result section
+            document.getElementById("result-section").classList.add("d-none");
+            document.querySelector("#cash-flow-table tbody").innerHTML = "";
+            document.getElementById("dcf-result").textContent = "";
+            document.getElementById("share-price").textContent = "";
         }
     </script>
 </body>
-</html>
+</
