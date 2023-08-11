@@ -67,7 +67,42 @@
     </div>
 
     <script>
-        // JavaScript code remains the same as provided in the previous responses.
+        function calculateDCF() {
+            const currency = document.getElementById("currency").value;
+            const cashFlow = parseFloat(document.getElementById("cash-flow").value);
+            const growthRate = parseFloat(document.getElementById("growth-rate").value) / 100;
+            const discountRate = parseFloat(document.getElementById("discount-rate").value) / 100;
+            const forecastYears = parseInt(document.getElementById("forecast-years").value);
+            const sharesOutstanding = parseInt(document.getElementById("shares-outstanding").value);
+
+            const tableBody = document.querySelector("#cash-flow-table tbody");
+            tableBody.innerHTML = "";
+
+            let perpetuityValue = 0;
+            let totalEquityValue = 0;
+
+            for (let year = 1; year <= forecastYears; year++) {
+                const fcf = cashFlow * Math.pow(1 + growthRate, year);
+                const discountFactor = 1 / Math.pow(1 + discountRate, year);
+                const discountedFCF = fcf * discountFactor;
+
+                perpetuityValue += discountedFCF;
+                totalEquityValue += discountedFCF;
+
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${year}</td>
+                    <td>${currency}${fcf.toFixed(2)}</td>
+                    <td>${discountFactor.toFixed(4)}</td>
+                    <td>${currency}${discountedFCF.toFixed(2)}</td>
+                `;
+
+                tableBody.appendChild(newRow);
+            }
+
+            document.getElementById("dcf-result").textContent = `Perpetuity Value: ${currency}${perpetuityValue.toFixed(2)}`;
+            document.getElementById("share-price").textContent = `Final Share Price: ${currency}${(totalEquityValue / sharesOutstanding).toFixed(2)}`;
+        }
     </script>
 </body>
 </html>
